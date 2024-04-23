@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import styles from "./MovieList.module.scss";
 import { IMovieDetails, addToWatchlist } from "../../redux/slice";
 import { useStateValue } from "../../custom-hooks/useStateValue";
+import { fetchMoviesBySearchQuery } from "../../services";
 
 const MovieList: React.FC = () => {
   const [movies, setMovies] = useState<IMovieDetails[]>([]);
@@ -25,20 +26,16 @@ const MovieList: React.FC = () => {
     if (query.trim() !== "") {
       const fetchMovies = async () => {
         try {
-          const response = await fetch(
-            `http://www.omdbapi.com/?apikey=5fc82d36&s=${query}`
-          );
-          const data = await response.json();
-          if (response.ok) {
-            setMovies(data.Search || []);
-          } else {
-            throw new Error(data.Error || "Unknown error");
-          }
-        } catch (error: any) {
-          console.error("Error fetching movies:", error.message);
+          const movies = await fetchMoviesBySearchQuery(query);
+          setMovies(movies);
+        } catch (error) {
+          console.error("Failed to fetch movies", error);
+          setMovies([]);
         }
       };
       fetchMovies();
+    } else {
+      setMovies([]);
     }
   }, [query]);
 

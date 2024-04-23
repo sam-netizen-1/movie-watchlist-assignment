@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import styles from "./MovieDetails.module.scss";
+import { fetchMovieByImdbID } from "../../services";
 
 interface IMovieDetails {
   Title: string;
@@ -26,15 +27,19 @@ const MovieDetails: React.FC = () => {
 
   useEffect(() => {
     if (imdbID) {
-      fetch(`http://www.omdbapi.com/?apikey=5fc82d36&i=${imdbID}`)
-        .then((response) => response.json())
-        .then((data) => {
-          if (data.Response === "True") {
-            setMovie(data);
-          } else {
-            setMovie(null);
-          }
-        });
+      const fetchMovie = async () => {
+        try {
+          const movieDetails = await fetchMovieByImdbID(imdbID);
+          setMovie(movieDetails);
+        } catch (error) {
+          console.error("Failed to fetch movie details", error);
+          setMovie(null);
+        }
+      };
+
+      fetchMovie();
+    } else {
+      setMovie(null);
     }
   }, [imdbID]);
 
