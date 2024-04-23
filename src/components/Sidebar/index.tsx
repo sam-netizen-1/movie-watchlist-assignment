@@ -30,6 +30,7 @@ const Sidebar = () => {
   const handleLogout = (e: BaseSyntheticEvent) => {
     e.stopPropagation();
     dispatch(logout());
+    navigate("/");
   };
   const handleCreateWatchlist = (e: BaseSyntheticEvent) => {
     e.stopPropagation();
