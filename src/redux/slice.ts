@@ -47,6 +47,7 @@ const userSlice = createSlice({
         user: action.payload,
         watchlists: [],
       };
+      state.users[email].isAuthenticated = true;
     },
     logout(state) {
       if (state.currentUser) {
