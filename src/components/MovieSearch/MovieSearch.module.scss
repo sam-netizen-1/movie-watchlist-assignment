@@ -1,0 +1,41 @@
+.movie-search {
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+  background-color: #f0f0f0;
+
+  form {
+    display: flex;
+    width: 100%; 
+    max-width: 600px; 
+
+    input {
+      flex-grow: 1; 
+      padding: 10px 15px;
+      border: 1px solid #ccc; 
+      border-radius: 20px ; 
+      font-size: 16px; 
+
+      &:focus {
+        outline: none;
+        border-color: #e31c25; 
+        box-shadow: 0 0 0 2px rgba(227, 28, 37, 0.2); 
+      }
+    }
+
+    button {
+      padding: 10px 15px;
+      border: none;
+      background-color: #e31c25; 
+      color: white;
+      border-radius: 0 20px 20px 0; 
+      cursor: pointer;
+      font-size: 16px; 
+      font-weight: bold; 
+
+      &:hover {
+        background-color: darken(#e31c25, 10%); 
+      }
+    }
+  }
+}

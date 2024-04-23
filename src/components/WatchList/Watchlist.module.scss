@@ -1,0 +1,59 @@
+.watchlist {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.movieGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 20px;
+}
+
+.movieCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  overflow: hidden;
+
+  &:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  }
+}
+
+.moviePoster {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+.movieInfo {
+  padding: 10px;
+  text-align: center;
+
+  h3 {
+    margin-top: 10px;
+    margin-bottom: 5px;
+  }
+
+  p {
+    color: #666;
+  }
+
+  .removeButton {
+    background-color: #e31c25;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    margin-top: 10px;
+    cursor: pointer;
+
+    &:hover {
+      background-color: #c41c1c;
+    }
+  }
+}
