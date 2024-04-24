@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   IMovieDetails,
   removeFromWatchlist,
@@ -8,7 +8,7 @@ import { useStateValue } from "../../custom-hooks/useStateValue";
 import { useNavigate } from "react-router-dom";
 import styles from "./Watchlist.module.scss";
 
-function Watchlist() {
+const Watchlist = () => {
   const { state, dispatch } = useStateValue();
   const currentWatchlistName = state.currentView;
   const currentUser = state.currentUser;
@@ -21,6 +21,7 @@ function Watchlist() {
     useState(currentWatchlistName);
   const [isEditing, setIsEditing] = useState(false);
 
+  const editContainerRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
 
   const handleRemoveFromWatchlist = (
@@ -35,7 +36,21 @@ function Watchlist() {
       })
     );
   };
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        editContainerRef.current &&
+        !editContainerRef.current.contains(event.target as Node)
+      ) {
+        setIsEditing(false);
+      }
+    };
 
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
   const handleMovieClick = (imdbID: string) => {
     navigate(`/movies/${imdbID}`);
   };
@@ -51,10 +66,12 @@ function Watchlist() {
       setIsEditing(false);
     }
   };
-
+  useEffect(() => {
+    setNewWatchlistName(currentWatchlistName);
+  }, [currentWatchlistName]);
   return (
     <div className={styles.watchlist}>
-      <div className={styles.watchlistName}>
+      <div className={styles.watchlistName} ref={editContainerRef}>
         {isEditing ? (
           <div>
             <input
@@ -104,6 +121,6 @@ function Watchlist() {
       )}
     </div>
   );
-}
+};
 
 export default Watchlist;
