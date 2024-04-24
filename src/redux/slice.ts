@@ -107,6 +107,20 @@ const userSlice = createSlice({
         });
       }
     },
+    renameWatchlist(
+      state,
+      action: PayloadAction<{ oldName: string; newName: string }>
+    ) {
+      if (state.currentUser) {
+        const userState = state.users[state.currentUser];
+        const watchlistIndex = userState.watchlists.findIndex(
+          (wl) => wl.name === action.payload.oldName
+        );
+        if (watchlistIndex !== -1) {
+          userState.watchlists[watchlistIndex].name = action.payload.newName;
+        }
+      }
+    },
   },
 });
 
@@ -116,6 +130,7 @@ export const {
   setCurrentView,
   addToWatchlist,
   removeFromWatchlist,
+  renameWatchlist,
   createWatchlist,
 } = userSlice.actions;
 

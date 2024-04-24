@@ -1,5 +1,9 @@
-import React from "react";
-import { IMovieDetails, removeFromWatchlist } from "../../redux/slice";
+import React, { useState } from "react";
+import {
+  IMovieDetails,
+  removeFromWatchlist,
+  renameWatchlist,
+} from "../../redux/slice";
 import { useStateValue } from "../../custom-hooks/useStateValue";
 import { useNavigate } from "react-router-dom";
 import styles from "./Watchlist.module.scss";
@@ -12,6 +16,10 @@ function Watchlist() {
   const currentWatchlist = watchlists.find(
     (wl: any) => wl.name === currentWatchlistName
   );
+
+  const [newWatchlistName, setNewWatchlistName] =
+    useState(currentWatchlistName);
+  const [isEditing, setIsEditing] = useState(false);
 
   const navigate = useNavigate();
 
@@ -32,9 +40,39 @@ function Watchlist() {
     navigate(`/movies/${imdbID}`);
   };
 
+  const handleRenameWatchlist = () => {
+    if (newWatchlistName.trim() !== "") {
+      dispatch(
+        renameWatchlist({
+          oldName: currentWatchlistName,
+          newName: newWatchlistName,
+        })
+      );
+      setIsEditing(false);
+    }
+  };
+
   return (
     <div className={styles.watchlist}>
-      <h2>{currentWatchlistName}</h2>
+      <div className={styles.watchlistName}>
+        {isEditing ? (
+          <div>
+            <input
+              type="text"
+              value={newWatchlistName}
+              onChange={(e) => setNewWatchlistName(e.target.value)}
+            />
+            <button className={styles.save} onClick={handleRenameWatchlist}>
+              Save
+            </button>
+          </div>
+        ) : (
+          <h2>{currentWatchlistName}</h2>
+        )}
+        <button onClick={() => setIsEditing(!isEditing)}>
+          {isEditing ? "" : "✎"}
+        </button>
+      </div>
       {currentWatchlist && currentWatchlist.movies.length > 0 ? (
         <div className={styles.movieGrid}>
           {currentWatchlist.movies.map((movie: IMovieDetails) => (
