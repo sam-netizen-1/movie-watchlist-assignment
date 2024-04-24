@@ -52,8 +52,7 @@ const userSlice = createSlice({
     logout(state) {
       if (state.currentUser) {
         state.users[state.currentUser].isAuthenticated = false;
-        state.users[state.currentUser].user = null;
-        state.users[state.currentUser].watchlists = [];
+        state.currentView = "home";
         state.currentUser = null;
       }
     },
