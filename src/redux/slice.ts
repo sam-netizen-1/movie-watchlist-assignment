@@ -118,6 +118,8 @@ const userSlice = createSlice({
         );
         if (watchlistIndex !== -1) {
           userState.watchlists[watchlistIndex].name = action.payload.newName;
+          state.currentView = action.payload.newName;
+
         }
       }
     },
