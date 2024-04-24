@@ -3,10 +3,11 @@ import useDebounce from "../../custom-hooks/useDebounce";
 import styles from "./MovieSearch.module.scss";
 interface MovieSearchProps {
   onSearch: (searchTerm: string) => void;
+  query: string;
 }
 
-const MovieSearch: React.FC<MovieSearchProps> = ({ onSearch }) => {
-  const [searchTerm, setSearchTerm] = useState("");
+const MovieSearch: React.FC<MovieSearchProps> = ({ onSearch, query }) => {
+  const [searchTerm, setSearchTerm] = useState(query);
 
   useDebounce(searchTerm, onSearch, 500);
 

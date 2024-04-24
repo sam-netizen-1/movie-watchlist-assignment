@@ -76,7 +76,10 @@ const Sidebar = () => {
               }`}
               onClick={() => handleSelect(watchlist.name)}
             >
-              <i className={`icon ${styles.icon}`} />
+              <img
+                src="https://icon-library.com/images/wishlist-icon/wishlist-icon-22.jpg"
+                className={styles.icon}
+              />
               {watchlist.name}
             </div>
           )

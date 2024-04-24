@@ -23,7 +23,29 @@ const MovieList: React.FC = () => {
   };
 
   useEffect(() => {
-    if (query.trim() !== "") {
+    const savedQuery = localStorage.getItem("moviesQuery");
+    const savedMovies = localStorage.getItem("moviesData");
+
+    if (savedQuery) {
+      setQuery(savedQuery);
+      if (savedMovies) {
+        setMovies(JSON.parse(savedMovies));
+      }
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("moviesQuery", query);
+
+    if (movies.length > 0) {
+      localStorage.setItem("moviesData", JSON.stringify(movies));
+    }
+  }, [query, movies]);
+
+  const [initialLoad, setInitialLoad] = useState(true);
+
+  useEffect(() => {
+    if (!initialLoad && query.trim() !== "") {
       const fetchMovies = async () => {
         try {
           const movies = await fetchMoviesBySearchQuery(query);
@@ -35,7 +57,7 @@ const MovieList: React.FC = () => {
       };
       fetchMovies();
     } else {
-      setMovies([]);
+      setInitialLoad(false);
     }
   }, [query]);
 
@@ -67,7 +89,7 @@ const MovieList: React.FC = () => {
   return (
     <div>
       <h2>Movie List</h2>
-      <MovieSearch onSearch={setQuery} />
+      {!initialLoad && <MovieSearch query={query} onSearch={setQuery} />}
       <div className={styles["movie-list"]}>
         {movies.map((movie) => (
           <MovieCard

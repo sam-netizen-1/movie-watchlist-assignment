@@ -1,7 +1,7 @@
 .sidebar {
   display: flex;
   flex-direction: column;
-  width: 250px;
+  width: 100%;
   height: 100vh;
   background-color: #f8f8f8;
   box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
@@ -56,9 +56,13 @@
 
   .selected {
     background-color: #e31c25;
+    color: #fff !important;
     &:hover {
-      background-color: darken(#d9534f, 10%);
+      background-color: darken(#e31c25, 10%);
     }
+  }
+  .selected.listItem > .icon {
+    filter: brightness(0) invert(1);
   }
 
   .lists {
@@ -84,9 +88,8 @@
       }
       .icon {
         margin-right: 10px;
-        background-image: url("https://icon-library.com/images/wishlist-icon/wishlist-icon-22.jpg");
-        background-size: contain;
-        background-repeat: no-repeat;
+        width: 20px;
+        height: 20px;
       }
     }
   }

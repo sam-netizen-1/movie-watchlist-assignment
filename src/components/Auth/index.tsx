@@ -25,7 +25,6 @@ const Authentication = () => {
   return (
     <div className={styles.authentication}>
       {" "}
-      {/* Use the class here */}
       <form onSubmit={handleLogin}>
         <input
           type="email"

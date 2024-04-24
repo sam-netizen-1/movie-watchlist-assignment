@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import styles from "./MovieDetails.module.scss";
 import { fetchMovieByImdbID } from "../../services";
 
@@ -24,7 +24,7 @@ interface IMovieDetails {
 const MovieDetails: React.FC = () => {
   const { imdbID } = useParams<{ imdbID: string }>();
   const [movie, setMovie] = useState<IMovieDetails | null>(null);
-
+  const navigate = useNavigate();
   useEffect(() => {
     if (imdbID) {
       const fetchMovie = async () => {
@@ -42,7 +42,9 @@ const MovieDetails: React.FC = () => {
       setMovie(null);
     }
   }, [imdbID]);
-
+  const handleBackClick = () => {
+    navigate(-1);
+  };
   const renderRatings = (ratings: { Source: string; Value: string }[]) => {
     return ratings.map((rating, index) => (
       <p key={index}>
@@ -53,6 +55,9 @@ const MovieDetails: React.FC = () => {
 
   return (
     <div className={styles.movieDetails}>
+      <button onClick={handleBackClick} className={styles.backButton}>
+        Back
+      </button>
       {movie ? (
         <div>
           <h2>{movie.Title}</h2>
